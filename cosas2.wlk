@@ -1,6 +1,6 @@
 
 object knightRider {
-    
+    method consecuenciaDeLaCarga(){}
     method peso() = 500
     method nivelDePeligrosidad() = 10
     method bultos() = 1
@@ -11,7 +11,9 @@ object bumblebee {
     method peso() = 800
     method nivelDePeligrosidad() = formaActual.nivel()
     method bultos() = 2
-
+    method consecuenciaDeLaCarga(){
+        self.cambiarForma(robot)
+    }
     method cambiarForma(forma) { formaActual = forma}
 
 }
@@ -35,7 +37,9 @@ object paqueteDeLadrillos {
         } else if(cantidadDeLadrillos.between(101, 300)){
             return 2
         }   else {return 3}
-    
+    method consecuenciaDeLaCarga(){
+        cantidadDeLadrillos += 12
+    }
 }
 
 
@@ -48,6 +52,9 @@ object bateria {
         tieneMisiles = !tieneMisiles
     }
     method bultos() = if (tieneMisiles) 2 else 1
+    method consecuenciaDeLaCarga(){
+        tieneMisiles = true
+    }
 }
 object contenedor {
     const cosas = []
@@ -62,6 +69,10 @@ object contenedor {
     method pesoDeCosas() = cosas.sum({c => c.peso()})
     method cosaMasPeligrosa() = cosas.max({c => c.nivelDePeligrosidad()})
     method meterElementos(listaElementos){ cosas.addAll(listaElementos)}
+    method consecuenciaDeLaCarga(){
+        cosas.forEach({c => c.consecuenciaDeLaCarga()})
+    }
+
 }
 
 
@@ -70,15 +81,24 @@ object residuos {
 
     method nivelDePeligrosidad() = 200
     method bultos() = 1
+    method consecuenciaDeLaCarga(){
+        peso += 15
+    }
 }
+
+
 object arena {
     var property peso = 10
     method nivelDePeligrosidad() = 1
     method bultos() = 1
+
+    method consecuenciaDeLaCarga(){
+        peso -(peso-10).max(0)
+    }
+    
 }
 
 object embalaje {
-   
     var cosaEnvuelta = bateria
     
     method peso() = cosaEnvuelta.peso()
@@ -88,6 +108,7 @@ object embalaje {
         cosaEnvuelta = nuevaCosa
     } 
     method bultos() = 2
+    method consecuenciaDeLaCarga(){}
 }
 
 

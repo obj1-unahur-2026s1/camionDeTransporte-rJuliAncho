@@ -65,6 +65,10 @@ object residuos {
     method nivelDePeligrosidad() = 200
 
 }
+object arena {
+    var property peso = 10
+    method nivelDePeligrosidad() = 1
+}
 
 object embalaje {
    
